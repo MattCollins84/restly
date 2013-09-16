@@ -41,6 +41,7 @@ Next create your module to handle the request (lib/example.js).
 Each module must consists of two paramters:
 * opts - a key/value object containing all the supplied values
 * callback - callback function, witht he first arguement being an error, the second some data
+
 ```
 var getExample = function(opts, callback) {
   return callback(null, {foo: opts.foo});
@@ -58,6 +59,7 @@ restly.init('./routes.json', {lib: "includes/"});
 ```
 
 Access this route via a HTTP get:
+
 ```
 CURL -X GET 'http://localhost:8000?foo=bar'
 ```
