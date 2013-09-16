@@ -1,5 +1,4 @@
 # RESTly
-======
 
 Simple and lightweight self-documenting REST API framework based on Express.
 

@@ -36,11 +36,27 @@ restly.init = function(r, opts) {
   var routesCollection = routes.getRoutes(r);
 
   // for each route
-  for(var r in routesCollection) {
+  for(var rc in routesCollection) {
     
-    var apicall = routesCollection[r];
+    var apicall = routesCollection[rc];
     
+    // add authentication object to apicall
+    if (apicall.authentication) {
+      
+      // get authentication methods
+      apicall.authentication = routes.getAuthentication(r, apicall.authentication);
+
+      // combine api call params with authentication params
+      apicall = routes.combineWithAuthentication(apicall);
+
+      routesCollection[rc] = apicall;
+    }
+
     apicall.library = process.cwd()+"/"+opts.lib+apicall.library;
+
+    if (apicall.authentication && apicall.authentication.library) {
+      apicall.authentication.library = process.cwd()+"/"+opts.lib+apicall.authentication.library;
+    } 
 
     // set up a express listener for each call
     switch(apicall.method) {
@@ -73,20 +89,21 @@ restly.init = function(r, opts) {
         break;    
     }
 
-    // documentation page
-    app.get('/', function(req, res) {
-      
-      // prepare the page data
-      var page = { 
-                    routes: routesCollection,
-                    config: opts
-                  };
-      
-      // render the channel list page
-      res.render(process.cwd()+"/node_modules/restly/views/index.jade", page);
-      
-    });
   }
+
+  // documentation page
+  app.get('/', function(req, res) {
+    
+    // prepare the page data
+    var page = { 
+                  routes: routesCollection,
+                  config: opts
+                };
+    
+    // render the channel list page
+    res.render(process.cwd()+"/node_modules/restly/views/index.jade", page);
+    
+  });
 
   // listen on the specified port
   var server = app.listen(opts.port);
