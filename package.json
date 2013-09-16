@@ -1,0 +1,32 @@
+{
+  "name": "restly",
+  "version": "0.0.1",
+  "description": "Lightweight, self documenting REST API framework, based on Express",
+  "main": "restly.js",
+  "dependencies": {
+    "express": "~3.4.0",
+    "moment": "~2.2.1",
+    "string": "~1.5.1",
+    "underscore": "~1.5.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/MattCollins84/restly.git"
+  },
+  "keywords": [
+    "REST",
+    "API",
+    "RESTFUL",
+    "express",
+    "framework"
+  ],
+  "author": "Matt Collins",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/MattCollins84/restly/issues"
+  }
+}
