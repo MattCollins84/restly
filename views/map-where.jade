@@ -1,0 +1,31 @@
+!!! 5
+html(lang='en')  
+  include includes/header
+  body
+
+        include includes/topbar-demo                                             
+    
+    div.container    
+            
+      
+      h1 Map - Where Search
+      
+      #googlemap
+      
+      #mapresult(style="width:720px;height:400px;")
+      
+      script(type='text/javascript')
+        initializeSerpsMap();
+        
+      br
+      form(id='searchform', name='searchform')
+        input(type='text', name='where', id='where', style='margin-right:5px;margin-top:10px')
+        select(name='apitype',id='apitype',style='margin-right:5px;margin-top:10px')
+          option(value="usegeopoint") Find Using Geopoints
+          option(value="usesearchable") Find Using Searchable Data From Google
+        input.btn.btn-success(type='button', value='Get Entities', onclick='whereMapSearch()')
+           
+      hr     
+      div.spacer
+
+    include includes/footer

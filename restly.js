@@ -8,14 +8,23 @@ var _       = require('underscore'),
     fs      = require('fs'),
     routes  = require('./lib/routes.js');
 
+// global for exporting
 var restly = {};
 
 // set up express
 var express = require('express');
-restly.express = express();
+var app = express();
 
 // force express to parse posted and putted parameters
-restly.express.use(express.bodyParser({ keepExtensions: true, uploadDir: '/tmp' }));
+app.use(express.bodyParser({ keepExtensions: true, uploadDir: '/tmp' }));
+
+// define public directory for docs
+app.use(express.static(__dirname+'/public'));
+
+// wrapper for passing middleware to express
+restly.use = function(mw) {
+  app.use(mw);
+}
 
 // init
 restly.init = function(r, opts) {
@@ -31,42 +40,56 @@ restly.init = function(r, opts) {
     
     var apicall = routesCollection[r];
     
-    apicall.library = opts.libraries+apicall.library;
+    apicall.library = process.cwd()+"/"+opts.lib+apicall.library;
 
     // set up a express listener for each call
     switch(apicall.method) {
       case 'put': 
       
-        this.express.put(apicall.endpoint, function (req,res) {
+        app.put(apicall.endpoint, function (req,res) {
             routes.parseRequest(apicall, req, res);           
         });
         break;
 
       case 'post':
 
-        this.express.post(apicall.endpoint, function (req,res) { 
+        app.post(apicall.endpoint, function (req,res) { 
           routes.parseRequest(apicall, req, res); 
         });
         break;
 
       case 'delete': 
 
-        this.express.delete(apicall.endpoint, function (req,res) { 
+        app.delete(apicall.endpoint, function (req,res) { 
           routes.parseRequest(apicall, req, res); 
         });
         break;   
 
       case 'get': 
         
-        this.express.get(apicall.endpoint, function (req,res) { 
+        app.get(apicall.endpoint, function (req,res) { 
           routes.parseRequest(apicall, req, res); 
         });
         break;    
     }
+
+    // documentation page
+    app.get('/', function(req, res) {
+      
+      // prepare the page data
+      var page = { 
+                    routes: routesCollection,
+                    config: opts
+                  };
+      
+      // render the channel list page
+      res.render(process.cwd()+"/node_modules/restly/views/index.jade", page);
+      
+    });
   }
 
   // listen on the specified port
-  var server = this.express.listen(opts.port);
+  var server = app.listen(opts.port);
 
   // this function is called when you want the server to die gracefully
   // i.e. wait for existing connections
@@ -98,8 +121,12 @@ var defaultOpts = function(opts) {
 
   // define defaults
   var defaults = {
+    lib: "",
+    protocol: "http",
+    domain: "localhost",
     port: 8000,
-    libraries: ""
+    name: "My API",
+    description: "Interactive API docs"
   }
 
   // change defaults with supplied opts

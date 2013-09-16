@@ -1,0 +1,72 @@
+!!! 5
+html(lang='en')  
+  head  
+    meta(charset='utf-8')
+    meta(name='viewport',content='width=device-width, initial-scale=1.0')
+    title Wolf API Docs 
+    link(rel='stylesheet',href='/bootstrap/css/bootstrap.css')
+    link(rel='stylesheet',href='/bootstrap/css/bootstrap-responsive.css')
+    link(rel='stylesheet',href='/bootstrap/css/bootstrap_extra.css')
+    link(rel='stylesheet',href='/stylesheets/style.css')
+    // Le HTML5 shim, for IE6-8 support of HTML5 elements
+    //[if lt IE 9]
+    script(src='http://html5shim.googlecode.com/svn/trunk/html5.js')
+    //[endif]
+    // Le fav and touch icons
+    link(rel='shortcut icon',href='/ico/favicon.ico')
+    link(rel='apple-touch-icon-precomposed',sizes='144x144',href='/ico/apple-touch-icon-144-precomposed.png')
+    link(rel='apple-touch-icon-precomposed',sizes='114x114',href='/ico/apple-touch-icon-114-precomposed.png')
+    link(rel='apple-touch-icon-precomposed',sizes='72x72',href='/ico/apple-touch-icon-72-precomposed.png')
+    link(rel='apple-touch-icon-precomposed',href='/ico/apple-touch-icon-57-precomposed.png')
+  body   
+    div.container
+
+     - var host = 'http://localhost:5000';
+     - var cmd = '';
+     
+     each apicall,key in controllers.apicalls
+      if key == formfields.curlkey
+
+       - var ids = new Array();
+       - var arr = apicall.endpoint.split("/:");
+       - for(var i=0;i<arr.length;i++) { 
+       -  if(arr[i].indexOf('/')!=-1 && arr[i].substr(0,1) != '/') {
+       -   var arr2 = arr[i].split("/");
+       -   var match = '/:' + arr2[0];
+       -  } else {
+       -   var match = '/:' + arr[i];
+       -  }
+       -  if(apicall.endpoint.indexOf(match)!=-1) {
+       -   ids[ids.length] = match;
+       -  }
+       - }
+       - var endpoint = apicall.endpoint;
+       - if(formfields.ids) {
+       -  for(var i=0;i<formfields.ids.length;i++) {
+       -   endpoint = endpoint.replace(ids[i],'/' + formfields.ids[i]);
+       -  }
+       - } 
+
+       - var params = '';
+       each field, fieldname in formfields
+        if fieldname!='ids' && fieldname!='curlkey'
+         - params += fieldname + '=' + field + '&'
+
+       if apicall.method == 'put'
+        - var cmd = 'curl -i -H "Accept: application/json" -X \'PUT\' -d "' + params + '" ' + host + endpoint;
+       else if apicall.method == 'get'
+        - var cmd = 'curl -i -X \'GET\' ' + host + endpoint;
+       else if apicall.method == 'post'
+        - var cmd = 'curl -i -H "Accept: application/json" -X \'POST\' -d "' + params + '" ' + host + endpoint;
+       else if apicall.method == 'delete'
+        - var cmd = '';
+
+       div.alert.alert-danger
+        =cmd
+
+       p Now all we need is a run button and some crazy method of triggering CURL commands via Jade/Node/Express...
+
+    footer    
+
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js')
+    script(src='/bootstrap/js/bootstrap.js')

@@ -1,0 +1,27 @@
+!!! 5
+html(lang='en')  
+  include includes/header
+  body 
+
+    include includes/topbar                                             
+    
+    div.container
+      div.row-fluid
+        div.span3
+          div
+
+            include includes/sidebar
+            
+        div.span9   
+            
+          include includes/intro
+            
+          h1 API Reference
+          - var section =''
+          each apicall,key in routes
+
+           include includes/apiinfo
+           include includes/apigen
+           hr
+
+    include includes/footer

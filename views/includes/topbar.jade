@@ -1,0 +1,49 @@
+div.navbar.navbar-inverse.navbar-fixed-top
+  div.navbar-inner
+    div.container
+      a.btn.btn-navbar(data-toggle='collapse',data-target='.nav-collapse')
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      a.brand(href='#') #{config.name}
+      div.nav-collapse.collapse
+      //-
+        ul.nav
+          li
+            a(href="#") Top
+          li.dropdown
+            a.dropdown-toggle(data-toggle='dropdown') Create Calls
+              b.caret
+            ul.dropdown-menu
+              li.nav-header HTTP PUT calls
+              each apicall in controllers.apicalls
+                if apicall.method == 'put'
+                  li
+                    a(href='##{apicall.method}-#{apicall.endpoint}') #{apicall.endpoint}
+          li.dropdown
+            a.dropdown-toggle(data-toggle='dropdown') Read Calls
+              b.caret
+            ul.dropdown-menu
+              li.nav-header HTTP GET calls
+              each apicall in controllers.apicalls
+                if apicall.method == 'get'
+                  li
+                    a(href='##{apicall.method}-#{apicall.endpoint}') #{apicall.endpoint}
+          li.dropdown
+            a.dropdown-toggle(data-toggle='dropdown') Update Calls
+              b.caret
+            ul.dropdown-menu
+              li.nav-header HTTP POST calls
+              each apicall in controllers.apicalls
+                if apicall.method == 'post'
+                  li
+                    a(href='##{apicall.method}-#{apicall.endpoint}') #{apicall.endpoint} 
+          li.dropdown
+            a.dropdown-toggle(data-toggle='dropdown') Delete Calls
+              b.caret
+            ul.dropdown-menu
+              li.nav-header HTTP DELETE calls
+              each apicall in controllers.apicalls
+                if apicall.method == 'delete'
+                  li
+                    a(href='##{apicall.method}-#{apicall.endpoint}') #{apicall.endpoint}

@@ -1,0 +1,66 @@
+- var arrayToList = function(arr){  
+-   var str ="";
+-   for(var i in arr) {
+-     str += arr[i];
+-     str += ", ";
+-   }
+-   str = str.replace(/, $/,"");
+-   return str;
+- }
+a(name='#{apicall.method}-#{apicall.endpoint}')
+div.spacer
+h2= apicall.endpoint
+span Method: 
+span.badge.badge-info= apicall.method
+p
+div.well.well-large
+ h3= apicall.title
+ div= apicall.description
+if Object.keys(apicall.parameters).length > 0
+ table.table.table-striped
+   thead
+     tr
+       th Parameter
+       th Type
+       th Required
+       th Must match
+       th Max Length
+       th Default Value
+       th Minimum value
+       th Maximum Value
+   tbody
+     each parameter,name in apicall.parameters
+       tr
+         td= name
+         td= parameter.type
+         if parameter.required
+           td
+             i.icon-ok
+         else
+           td
+         parameter.required
+         if parameter.type=='enum'
+           td  #{arrayToList(parameter.values)}
+         else if parameter.regex != false
+           td= parameter.regex
+         else if parameter.file_types
+           td= parameter.file_types
+         else
+           td
+         td= parameter.max_length
+         if typeof parameter.default != 'undefined'
+           td= parameter.default
+         else if parameter.type == 'int'
+           td 0
+         else 
+           td
+         if parameter.type != 'int'
+           td
+         else
+           td= parameter.min
+         if parameter.type != 'int'
+           td
+         else
+           td= parameter.max
+else
+  p No parameters required

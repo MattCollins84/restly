@@ -1,0 +1,21 @@
+!!! 5
+html(lang='en')  
+  include includes/header
+  body 
+
+        include includes/topbar-demo                                             
+    
+    div.container    
+            
+      
+      h1 Demo Homepage
+      ul
+      - var section =''
+          li
+            a(href='/demo/map-zoom') Map zoom search
+          li
+            a(href='/demo/map-where') Map where search
+      hr     
+      div.spacer
+
+    include includes/footer

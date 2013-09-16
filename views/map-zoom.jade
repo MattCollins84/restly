@@ -1,0 +1,26 @@
+!!! 5
+html(lang='en')  
+  include includes/header
+  body
+
+        include includes/topbar-demo                                             
+    
+    div.container    
+            
+      
+      h1 Map Zoom Demo
+      
+      #googlemap
+      
+      #mapresult(style="width:720px;height:400px;")
+      
+      script(type='text/javascript')
+        initializeSerpsMap();
+        
+      br
+      input.btn.btn-success(type='button', value='Get Entities', onclick='zoomedMapSearch()')
+           
+      hr     
+      div.spacer
+
+    include includes/footer

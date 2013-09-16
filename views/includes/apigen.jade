@@ -1,0 +1,96 @@
+if apicall.endpoint != '/entity/bulk'
+  - var paramcount = 0;
+  p e.g.
+  div.curlform(id="curl"+key)
+   form.form-horizontal(action='/', method='post', id='form'+key)
+    - var ids = apicall.endpoint.match(/:[-a-zA-Z0-9_]+/g);
+    - if(ids != null) {
+    -   for(var i=0;i<ids.length;i++) { 
+    -    paramcount++;
+    -    var idname = ids[i];
+      div.control-group
+        label.control-label(for=idname)
+          b 
+            =idname
+        div.controls
+         div.input-append
+          input(type='text', name=idname)
+          span.add-on 
+           i.icon-star
+    -   }
+    - }
+      
+    each param,paramname in apicall.parameters
+     - paramcount++;
+     div.control-group
+      label.control-label(for=paramname)= paramname
+      div.controls
+
+       if param.required
+        div.input-append
+         if param.type=='file'
+          input(type='file', name=paramname)
+         else if param.type=='bool'
+          select(name=paramname)
+           option(value='true') true
+           option(value='false') false
+         else if param.type=='enum'
+          select(name=paramname)
+           each value in param.values
+            option(value=value)= value
+         else if param.type=='collection'
+          input(type='text', name=paramname, value='')
+          span.help-inline Accepts comma separated lists
+         else if param.type=='number collection'
+          input(type='text', name=paramname, value='')
+          span.help-inline Accepts comma separated lists
+         else if param.type=='language collection'
+          input(type='text', name=paramname, value='')
+          span.help-inline Accepts comma separated lists
+         else if param.textarea    
+          textarea(name=paramname)
+         else
+          input(type='text', name=paramname, value='')          
+         span.add-on 
+          i.icon-star
+       else 
+        if param.type=='file'
+         input(type='file', name=paramname)
+        else if param.type=='bool'
+         select(name=paramname)
+          option(value='') 
+          option(value='true') true
+          option(value='false') false
+        else if param.type=='enum'
+         select(name=paramname)
+          option(value='') Please select...
+          each value in param.values
+           option(value=value)= value
+        else if param.type=='collection'
+         input(type='text', name=paramname, value='')
+         span.help-inline Accepts comma separated lists
+        else if param.type=='number collection'
+         input(type='text', name=paramname, value='')
+         span.help-inline Accepts comma separated lists
+        else if param.type=='language collection'
+         input(type='text', name=paramname, value='')
+         span.help-inline Accepts comma separated lists
+        else if param.textarea    
+         textarea(name=paramname)
+        else     
+         input(type='text', name=paramname, value='') 
+    
+       if param.description
+        span.help-block= param.description
+
+    div.control-group
+     label.control-label &nbsp;
+    div.controls
+     input.btn.btn-success(type='button', value='Generate CURL',onclick='generateCurl('+"'"+config.protocol+"','"+config.domain+"','"+config.port+"',"+key+','+"'"+apicall.method+"'"+','+"'"+apicall.endpoint+"'"+')')
+     - if(paramcount > 0) {
+      &nbsp;
+      input.btn(type='reset', value='Clear Form')
+     - }
+
+  div.alert.alert-success.hidden(id="curlcommand"+key) 
+  

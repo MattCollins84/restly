@@ -1,0 +1,63 @@
+!!! 5
+html(lang='en')  
+  head  
+    meta(charset='utf-8')
+    meta(name='viewport',content='width=device-width, initial-scale=1.0')
+    title Central Index API Docs 
+    link(rel='stylesheet',href='http://centralindex.com/bootstrap/v2.1.1/css/bootstrap.css')
+    link(rel='stylesheet',href='http://centralindex.com/bootstrap/v2.1.1/css/bootstrap-responsive.css')
+    // Le HTML5 shim, for IE6-8 support of HTML5 elements
+    //[if lt IE 9]
+    script(src='http://html5shim.googlecode.com/svn/trunk/html5.js')
+    //[endif]
+  body
+    if Object.keys(apicall.parameters).length > 0
+     table.table.table-striped
+       thead
+         tr
+           th Parameter
+           th Type
+           th Required
+           th Must match
+           th Max Length
+           th Default Value
+           th Minimum value
+           th Maximum Value
+           th Example
+       tbody
+         each parameter,name in apicall.parameters
+           tr
+             td= name
+             td= parameter.type
+             if parameter.required
+               td
+                 i.icon-ok
+             else
+               td
+             parameter.required
+             if parameter.type=='enum'
+               td= parameter.values
+             else if parameter.regex != false
+               td= parameter.regex
+             else if parameter.file_types
+               td= parameter.file_types
+             else
+               td
+             td= parameter.max_length
+             if typeof parameter.default != 'undefined'
+               td= parameter.default
+             else if parameter.type == 'int'
+               td 0
+             else 
+               td
+             if parameter.type != 'int'
+               td
+             else
+               td= parameter.min
+             if parameter.type != 'int'
+               td
+             else
+               td= parameter.max
+             td= parameter.example
+    else
+      p No parameters required

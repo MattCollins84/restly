@@ -1,0 +1,54 @@
+div.hero-unit
+  h1 #{config.name}
+  p
+  p
+  p #{config.description}
+  div.spacer
+
+h1 Introduction
+div.spacer
+p The #{config.name} API handles the following operation through the following http methods:
+ul
+  li Creating - PUT
+  li Read - GET
+  li Update - POST
+  li Delete - DELETE
+p Each API call returns a JSON object with three parameters:
+ol
+  li success - true/false
+  li msg - a status message
+  li data - the data requested
+div.spacer
+      
+h2 Dates
+p Dates are stored in Wolf using UTC time format. If you supply a date to an API call e.g
+pre 2010-10-30 22:30:00 +01:00
+p then when it is retrieved it will in the "UTC" timezone e.g. GMT + 0
+pre 2010-10-30 21:30:00 +00:00
+p Dates can also be provided as an interval e.g.
+pre 4 months
+p This will be calculated as 4 months from the current date. These intervals can also be negative e.g.
+pre -3 years
+p Allowed units for intervals as:
+ul
+  li minutes
+  li hours
+  li days
+  li months
+  li years
+div.spacer
+
+h2 Global parameters for 'PUT' and 'POST' API calls
+p All 'PUT' and 'POST' API calls can accept the following parameters:
+ul
+  li masheryid
+  li _user_email
+  li _url
+  li _supplier
+  li _supplier_id
+  li _when
+  
+p Out of these parameters, only the masheryid field is required; however _user_email is always required when updating/creating an entity. _url, _supplier and _supplier_id are optional.
+p The _when parameter will default to the current time.
+      
+hr

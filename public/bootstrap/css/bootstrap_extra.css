@@ -1,0 +1,48 @@
+body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+}
+
+input[type="file"]{
+  width: 220px;
+}
+
+.affix-top {
+
+}
+
+.mr {
+  margin-right: 5px;
+}
+
+#accordionsidebar {
+  top: 100px!important;
+}
+
+@media (min-width: 801px) {
+	.affix-top {
+		position:fixed;
+		top:60px;
+	}
+}
+
+.accordion-inner {
+  max-height: 350px;
+  overflow: auto;
+}
+
+div::-webkit-scrollbar {
+  height: 12px;
+	width: 12px;
+	background: #fff;
+	border-left: 1px solid #AAAAAA;
+}
+
+div::-webkit-scrollbar-thumb {
+  background: #CECECE;
+  border-left: 1px solid #AAAAAA;
+}
+
+div::-webkit-scrollbar-corner {
+  background: #000;
+}
