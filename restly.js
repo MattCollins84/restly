@@ -92,7 +92,7 @@ restly.init = function(r, opts) {
   }
 
   // documentation page
-  app.get('/', function(req, res) {
+  app.get(opts.docs_endpoint, function(req, res) {
     
     // prepare the page data
     var page = { 
@@ -143,7 +143,8 @@ var defaultOpts = function(opts) {
     domain: "localhost",
     port: 8000,
     name: "My API",
-    description: "Interactive API docs"
+    description: "Interactive API docs",
+    docs_endpoint: "/"
   }
 
   // change defaults with supplied opts

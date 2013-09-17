@@ -4,12 +4,14 @@ Simple and lightweight self-documenting REST API framework based on Express.
 
 #### Features
 * Define your own routes
+* All validation handled for you
 * Interactive docs for your API
 * Easy to add custom authentication to selected routes
 * Based on Express, use any existing Express middleware
 
 #### Coming soon
 * Optional caching
+* Better documentation
 * Make a request..!
 
 ## Quick start
