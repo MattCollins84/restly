@@ -12,6 +12,7 @@ Simple and lightweight self-documenting REST API framework based on Express.
 #### Coming soon
 * Optional caching
 * Better documentation
+* Better error catching and general improvements
 * Make a request..!
 
 ## Quick start
@@ -76,6 +77,21 @@ Access this route via a HTTP get:
 CURL -X GET 'http://localhost:8000?foo=bar'
 ```
 
+## More options
+When you init RESTly, you can supply several options to customise your API. The init function takes two parameters:
+* routes - path to the routes file, relative to the file calling it
+* options (optional) - customisable options, defaults shown below
+```
+restly.init('./routes.json', {
+  lib: "", // directory that contains your libraries
+  protocol: "http", // public protocol, can be http or https (for generating example curl requests in docs)
+  domain: "localhost", // public domain (for generating example curl requests in docs)
+  port: 8000, // public port (for generating example curl requests in docs)
+  name: "My API", // Name of the API, for building the docs
+  description: "Interactive API docs", // Description, again for docs
+  docs_endpoint: "/" // the location to access the docs from
+});
+```
 ## Defining routes
 Each route has a number of parameters that can be used to define it:
 
@@ -99,6 +115,15 @@ Each parameter has several options:
 * min_length/max_length - minimum/maximum length for strings
 * description - description of the parameter
 * example - example value
+
+## Express compatibility
+RESTly is based on the excellent Express framework. Because of this, all routes and endpoints can be defined the same as you would in Express, and you can also use any existing Express middleware, or of course create your own.
+
+NOTE: RESTly uses the express.bodyParser middleware internally already, as so:
+
+```
+express.bodyParser({ keepExtensions: true, uploadDir: '/tmp' })
+```
 
 ## Add authentication
 Add an 'authentication' section to your 'routes.json' file. This is defined very much like a standard route:
@@ -145,3 +170,6 @@ And specify which authentication method you would like to use for each individua
 Authentication parameters will be added to the route and passed to the authentication callback first. If this callback does not return an error, the standard route callback is called in the usual way.
 
 Authentication modules should be created in the same way as standard modules.
+
+## Documentation
+Docs are auto generated and by default are located at the top level of your API (e.g. http://localhost:8000/). You can change the 'docs_endpoint' init option to alter this.
