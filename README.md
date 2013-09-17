@@ -79,43 +79,43 @@ CURL -X GET 'http://localhost:8000?foo=bar'
 
 ## More options
 When you init RESTly, you can supply several options to customise your API. The init function takes two parameters:
-* routes - path to the routes file, relative to the file calling it
-* options (optional) - customisable options, defaults shown below
+* __routes__ - path to the routes file, relative to the file calling it
+* __options__ (optional) - customisable options, defaults shown below
 
 ```
 restly.init('./routes.json', {
-  lib: "", // directory that contains your libraries
-  protocol: "http", // public protocol, can be http or https (for generating example curl requests in docs)
-  domain: "localhost", // public domain (for generating example curl requests in docs)
-  port: 8000, // public port (for generating example curl requests in docs)
-  name: "My API", // Name of the API, for building the docs
-  description: "Interactive API docs", // Description, again for docs
-  docs_endpoint: "/" // the location to access the docs from
+  lib: "", _// directory that contains your libraries_
+  protocol: "http", _// public protocol, can be http or https (for generating example curl requests in docs)_
+  domain: "localhost", _// public domain (for generating example curl requests in docs)_
+  port: 8000, _// public port (for generating example curl requests in docs)_
+  name: "My API", _// Name of the API, for building the docs_
+  description: "Interactive API docs", _// Description, again for docs_
+  docs_endpoint: "/" _// the location to access the docs from_
 });
 ```
 ## Defining routes
 Each route has a number of parameters that can be used to define it:
 
-* title - short description
-* description - longer description
-* section - the group of API calls this belongs to
-* endpoint - the endpoint to use to access this API (in express format)
-* method - HTTP method (GET/POST/PUT/DELETE)
-* library - the .js library that contains the callback to execute
-* callback - the Javascript function to use as the callback
-* parameters - Javascript object defining parameter
+* __title__ - short description
+* __description__ - longer description
+* __section__ - the group of API calls this belongs to
+* __endpoint__ - the endpoint to use to access this API (in express format)
+* __method__ - HTTP method (GET/POST/PUT/DELETE)
+* __library__ - the .js library that contains the callback to execute
+* __callback__ - the Javascript function to use as the callback
+* __parameters__ - Javascript object defining parameter
 
 Each parameter has several options:
 
-* required - is this required (bool)
-* type - data type
-* regex - should the value match a regular expression? (e.g. '[0-9]{2}[a-zA-Z]{3})
-* default - a default value if left blank
-* values - if type=enum, a Javascript array of allowed values (["one", "two", "three"])
-* min/max - minimum/maximum value (for 'int' and 'float' types)
-* min_length/max_length - minimum/maximum length for strings
-* description - description of the parameter
-* example - example value
+* __required__ - is this required (bool)
+* __type__ - data type
+* __regex__ - should the value match a regular expression? (e.g. '[0-9]{2}[a-zA-Z]{3})
+* __default__ - a default value if left blank
+* __values__ - if type=enum, a Javascript array of allowed values (["one", "two", "three"])
+* __min/max__ - minimum/maximum value (for 'int' and 'float' types)
+* __min_length/max_length__ - minimum/maximum length for strings
+* __description__ - description of the parameter
+* __example__ - example value
 
 ## Express compatibility
 RESTly is based on the excellent Express framework. Because of this, all routes and endpoints can be defined the same as you would in Express, and you can also use any existing Express middleware, or of course create your own.
