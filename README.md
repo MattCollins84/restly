@@ -81,6 +81,7 @@ CURL -X GET 'http://localhost:8000?foo=bar'
 When you init RESTly, you can supply several options to customise your API. The init function takes two parameters:
 * routes - path to the routes file, relative to the file calling it
 * options (optional) - customisable options, defaults shown below
+
 ```
 restly.init('./routes.json', {
   lib: "", // directory that contains your libraries
