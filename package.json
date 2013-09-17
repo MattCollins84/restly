@@ -1,6 +1,6 @@
 {
   "name": "restly",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Lightweight, self documenting REST API framework, based on Express",
   "main": "restly.js",
   "dependencies": {
