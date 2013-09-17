@@ -82,17 +82,15 @@ When you init RESTly, you can supply several options to customise your API. The 
 * __routes__ - path to the routes file, relative to the file calling it
 * __options__ (optional) - customisable options, defaults shown below
 
-```
-restly.init('./routes.json', {
-  lib: "", _// directory that contains your libraries_
-  protocol: "http", _// public protocol, can be http or https (for generating example curl requests in docs)_
-  domain: "localhost", _// public domain (for generating example curl requests in docs)_
-  port: 8000, _// public port (for generating example curl requests in docs)_
-  name: "My API", _// Name of the API, for building the docs_
-  description: "Interactive API docs", _// Description, again for docs_
-  docs_endpoint: "/" _// the location to access the docs from_
-});
-```
+
+* lib: "", _// directory that contains your libraries_
+* protocol: "http", _// public protocol, can be http or https (for generating example curl requests in docs)_
+* domain: "localhost", _// public domain (for generating example curl requests in docs)_
+* port: 8000, _// public port (for generating example curl requests in docs)_
+* name: "My API", _// Name of the API, for building the docs_
+* description: "Interactive API docs", _// Description, again for docs_
+* docs_endpoint: "/" _// the location to access the docs from_
+
 ## Defining routes
 Each route has a number of parameters that can be used to define it:
 
