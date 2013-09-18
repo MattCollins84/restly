@@ -6,7 +6,8 @@
 
 var _       = require('underscore'),
     fs      = require('fs'),
-    routes  = require('./lib/routes.js');
+    routes  = require('./lib/routes.js'),
+    caching  = require('./lib/caching.js');
 
 // global for exporting
 var restly = {};
@@ -52,40 +53,67 @@ restly.init = function(r, opts) {
       routesCollection[rc] = apicall;
     }
 
+    // get the full and correct path for the library
     apicall.library = process.cwd()+"/"+opts.lib+apicall.library;
 
+    // and for the authentication library, if required
     if (apicall.authentication && apicall.authentication.library) {
       apicall.authentication.library = process.cwd()+"/"+opts.lib+apicall.authentication.library;
     } 
+
+    // are we enabling caching?
+    if (!opts.caching || !apicall.caching) {
+      apicall.caching = false;
+    }
+
+    else {
+      apicall.caching = caching.parseOptsCache(opts.caching);
+
+      // add special _use_cache param to API call
+      apicall.parameters._use_cache = {
+        "required": false,
+        "type": "bool",
+        "description":"Do you want to read from the cache",
+        "default": true
+      }
+    }
 
     // set up a express listener for each call
     switch(apicall.method) {
       case 'put': 
       
-        app.put(apicall.endpoint, function (req,res) {
-            routes.parseRequest(apicall, req, res);           
-        });
+        (function(ac) {
+          app.put(ac.endpoint, function (req,res) {
+            routes.parseRequest(ac, req, res);           
+          });
+        })(apicall);
         break;
 
       case 'post':
 
-        app.post(apicall.endpoint, function (req,res) { 
-          routes.parseRequest(apicall, req, res); 
-        });
+        (function(ac) {
+          app.post(ac.endpoint, function (req,res) {
+            routes.parseRequest(ac, req, res);           
+          });
+        })(apicall);
         break;
 
       case 'delete': 
 
-        app.delete(apicall.endpoint, function (req,res) { 
-          routes.parseRequest(apicall, req, res); 
-        });
+        (function(ac) {
+          app.delete(ac.endpoint, function (req,res) {
+            routes.parseRequest(ac, req, res);           
+          });
+        })(apicall);
         break;   
 
       case 'get': 
         
-        app.get(apicall.endpoint, function (req,res) { 
-          routes.parseRequest(apicall, req, res); 
-        });
+        (function(ac) {
+          app.get(ac.endpoint, function (req,res) {
+            routes.parseRequest(ac, req, res);           
+          });
+        })(apicall);
         break;    
     }
 
@@ -144,7 +172,8 @@ var defaultOpts = function(opts) {
     port: 8000,
     name: "My API",
     description: "Interactive API docs",
-    docs_endpoint: "/"
+    docs_endpoint: "/",
+    caching: false
   }
 
   // change defaults with supplied opts
@@ -160,6 +189,15 @@ var defaultOpts = function(opts) {
 
   }
 
+  // check for sane protocol values
+  if (!_.isString(defaults.protocol)) { defaults.protocol = "http"; }
+  defaults.protocol = defaults.protocol.toLowerCase();
+  if (defaults.protocol != 'http' && defaults.protocol != 'https') { defaults.protocol = 'http'; }
+  
+  // sane port values
+  if (!_.isNumber(defaults.port)) { defaults.port = 8000; }
+
+  // return
   return defaults;
 
 }

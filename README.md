@@ -4,13 +4,13 @@ Simple and lightweight self-documenting REST API framework based on Express.
 
 #### Features
 * Define your own routes
-* All validation handled for you
+* All parameter validation handled for you
 * Interactive docs for your API
-* Easy to add custom authentication to selected routes
+* Custom authentication for selected routes
+* Caching
 * Based on Express, use any existing Express middleware
 
 #### Coming soon
-* Optional caching
 * Better documentation
 * Better error catching and general improvements
 * Make a request..!
@@ -22,7 +22,7 @@ First up, install RESTly:
 npm install restly
 ```
 
-Then, create a routes file, in JSON (routes.json):
+Then, create a routes file, in JSON (routes.json), where you will define your first API:
 
 ```
 {
@@ -51,9 +51,9 @@ Then, create a routes file, in JSON (routes.json):
 
 Next create your module to handle the request (lib/example.js).
 
-Each module must consists of two paramters:
+Each callback will be passed two parameters:
 * opts - a key/value object containing all the supplied values
-* callback - callback function, witht he first arguement being an error, the second some data
+* callback - callback function, with the first arguement being an error, while the second is the response data
 
 ```
 var getExample = function(opts, callback) {
@@ -65,7 +65,7 @@ module.exports = {
 }
 ```
 
-And finally, set up your new API:
+And finally, set up your new API - telling restly where your routes file and libraries are located:
 ```
 var restly = require('restly');
 restly.init('./routes.json', {lib: "includes/"});
@@ -90,7 +90,8 @@ When you init RESTly, you can supply several options to customise your API. The 
   port: 8000, // public port (for generating example curl requests in docs)
   name: "My API", // Name of the API, for building the docs
   description: "Interactive API docs", // Description, again for docs
-  docs_endpoint: "/" // the location to access the docs from
+  docs_endpoint: "/", // the location to access the docs from
+  caching: false // whether to enable caching or not (bool)
 }
 ```
 
@@ -106,7 +107,7 @@ Each route has a number of parameters that can be used to define it:
 * __callback__ - the Javascript function to use as the callback
 * __parameters__ - Javascript object defining parameter
 
-Each parameter has several options:
+Each parameter has several options, only some may apply to certain data types:
 
 * __required__ - is this required (bool)
 * __type__ - data type
@@ -118,8 +119,28 @@ Each parameter has several options:
 * __description__ - description of the parameter
 * __example__ - example value
 
+## Data types
+* __string__
+* __int__
+* __float__
+* __date__ - can be expressed as a date (YYYY-MM-DD hh:mm:ss) or as an interval (3 months/2 days/5 years/-5 days)
+* __bool__
+* __collection__ - essentially an array, expressed as a Javascript array (["james", "scott", "dave"])
+* __number collection__ - a collection that only allows numbers as values
+* __date collection__ - a collection that only allows dates as values
+* __enum__ - use in conjunction with 'values' to determine a group of allowed values
+* __url_ - only allows valid URLs as values
+* __email__ - only allows valid email addresses as values
+
 ## Express compatibility
 RESTly is based on the excellent Express framework. Because of this, all routes and endpoints can be defined the same as you would in Express, and you can also use any existing Express middleware, or of course create your own.
+
+To use middleware:
+```
+var restly = require('restly');
+restly.use(middleware.someMethod());
+restly.init('./routes.json', {lib: "includes/"});
+```
 
 NOTE: RESTly uses the express.bodyParser middleware internally already, as so:
 
@@ -175,3 +196,38 @@ Authentication modules should be created in the same way as standard modules.
 
 ## Documentation
 Docs are auto generated and by default are located at the top level of your API (e.g. http://localhost:8000/). You can change the 'docs_endpoint' init option to alter this.
+
+## Add caching (requires [Redis](http://www.redis.io/) to be installed)
+To turn caching on, do this (By default, RESTly will use Redis on localhost with the default port):
+```
+restly.init('./routes.json', {lib: "includes/", caching: true}); // using defaults
+restly.init('./routes.json', {lib: "includes/", caching: "redis://host.for.redis.com:1337"}); // specify the host and the port
+restly.init('./routes.json', {lib: "includes/", caching: "redis://host.for.redis.com"}); // just change the host
+```
+
+In a route definition, add a caching option (bool) to turn caching on or off.
+```
+"routes": [
+    {
+      "title": "Example API call",
+      "description": "Example API call",
+      "authentication": "standard",
+      "caching": "true",
+      "section": "General API Calls",
+      "endpoint": "/example",
+      "method": "get",
+      "library": "example.js",
+      "callback": "getExample",
+      "parameters": {
+        ...
+      }
+    }
+  ]
+```
+
+Turning caching on for a particular route will add a special parameter '_use_cache', which defaults to true. This can be set to false in order to avoid the cache.
+
+## Documentation
+
+Docs are auto generated and by default are located at the top level of your API (e.g. http://localhost:8000/). You can change the 'docs_endpoint' init option to alter this.
+
