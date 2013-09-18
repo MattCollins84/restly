@@ -194,9 +194,6 @@ Authentication parameters will be added to the route and passed to the authentic
 
 Authentication modules should be created in the same way as standard modules.
 
-## Documentation
-Docs are auto generated and by default are located at the top level of your API (e.g. http://localhost:8000/). You can change the 'docs_endpoint' init option to alter this.
-
 ## Add caching (requires [Redis](http://www.redis.io/) to be installed)
 To turn caching on, do this (By default, RESTly will use Redis on localhost with the default port):
 ```
@@ -231,3 +228,4 @@ Turning caching on for a particular route will add a special parameter '_use_cac
 
 Docs are auto generated and by default are located at the top level of your API (e.g. http://localhost:8000/). You can change the 'docs_endpoint' init option to alter this.
 
+![Docs](https://raw.github.com/MattCollins84/restly/master/images/docs.png)
