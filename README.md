@@ -12,6 +12,7 @@ Simple and lightweight self-documenting REST API framework based on Express.
 
 #### Coming soon
 * Better documentation
+* Better parameter validation
 * Better error catching and general improvements
 * Make a request..!
 
