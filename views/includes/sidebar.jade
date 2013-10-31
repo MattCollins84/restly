@@ -4,6 +4,18 @@ div.accordion.affix-top#accordionsidebar
     div.accordion-heading
       a.accordion-toggle(data-toggle='collapse',data-parent='#accordionsidebar',href='#collapseOne',style='outline:none')
         i.icon-chevron-right.pull-right 
+        span Sections
+    div#collapseOne.accordion-body.collapse
+      div.accordion-inner
+        ul
+          each s in sections
+            li
+              a(href='#{docs_endpoint}/section/#{s}') #{s}
+
+  div.accordion-group
+    div.accordion-heading
+      a.accordion-toggle(data-toggle='collapse',data-parent='#accordionsidebar',href='#collapseOne',style='outline:none')
+        i.icon-chevron-right.pull-right 
         span Create Calls - HTTP PUT
     div#collapseOne.accordion-body.collapse
       div.accordion-inner

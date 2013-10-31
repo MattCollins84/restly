@@ -17,9 +17,9 @@ html(lang='en')
           include includes/intro
             
           h1 API Reference
-          - var section =''
+          
           each apicall,key in routes
-
+           - if (section !== false && section.toLowerCase().replace(/[^0-9a-z]/g, "") != apicall.section.toLowerCase().replace(/[^0-9a-z]/g, "")) { continue; }
            include includes/apiinfo
            include includes/apigen
            hr

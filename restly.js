@@ -122,10 +122,44 @@ restly.init = function(r, opts) {
   // documentation page
   app.get(opts.docs_endpoint, function(req, res) {
     
+    var sections = [];
+    for (var r in routesCollection) {
+      sections.push(routesCollection[r].section);
+    }
+
+    sections = _.uniq(sections)
+
     // prepare the page data
     var page = { 
                   routes: routesCollection,
-                  config: opts
+                  config: opts,
+                  section: false,
+                  sections: sections,
+                  docs_endpoint: opts.docs_endpoint
+                };
+    
+    // render the channel list page
+    res.render(process.cwd()+"/node_modules/restly/views/index.jade", page);
+    
+  });
+
+  // documentation page by section
+  app.get(opts.docs_endpoint+"/section/:section", function(req, res) {
+    
+    var sections = [];
+    for (var r in routesCollection) {
+      sections.push(routesCollection[r].section);
+    }
+
+    sections = _.uniq(sections)
+
+    // prepare the page data
+    var page = { 
+                  routes: routesCollection,
+                  config: opts,
+                  section: req.params.section,
+                  sections: sections,
+                  docs_endpoint: opts.docs_endpoint
                 };
     
     // render the channel list page
