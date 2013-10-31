@@ -136,6 +136,16 @@ Each parameter has several options, only some may apply to certain data types:
 ## Express compatibility
 RESTly is based on the excellent Express framework. Because of this, all routes and endpoints can be defined the same as you would in Express, and you can also use any existing Express middleware, or of course create your own.
 
+__NOTE:__ If you define an endpoint with parameters built in (i.e. endpoint: "/user/:user_id/edit") and you additionally define a parameter with the name 'user_id', the value of opts.user_id will come from the endpoint, rather than the parameter. For example, with the endpoint "/user/:user_id/edit":
+
+```
+curl 'http://localhost:8000/user/135/edit?user_id=999'
+opts {
+  user_id: 135
+}
+
+```
+
 To use middleware:
 ```
 var restly = require('restly');
