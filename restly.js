@@ -144,7 +144,7 @@ restly.init = function(r, opts) {
   });
 
   // documentation page by section
-  app.get(opts.docs_endpoint+"/section/:section", function(req, res) {
+  app.get(opts.docs_endpoint+"section/:section", function(req, res) {
     
     var sections = [];
     for (var r in routesCollection) {
@@ -168,7 +168,31 @@ restly.init = function(r, opts) {
   });
 
   // listen on the specified port
-  var server = app.listen(opts.port);
+  if (opts.protocol == 'https') {
+    // set up for secure server
+    var fs = require('fs');
+    var https = require('https');
+
+    try {
+        var privateKey  = fs.readFileSync(opts.ssl_private_key, 'utf8');
+        var certificate = fs.readFileSync(opts.ssl_certificate, 'utf8');
+    } catch (e) {
+        if (e.code === 'ENOENT') {
+            console.log('\n    Cannot find SSL private key or certificate file.');
+            console.log('   Make sure "'+opts.ssl_private_key+'" and "'+opts.ssl_certificate+'" exist.')
+            
+            throw e;
+        }
+    }
+
+    var credentials = { key: privateKey, cert: certificate };
+    
+    var server = https.createServer(credentials, app);
+    
+    server.listen(opts.port);
+  } else {
+      var server = app.listen(opts.port);
+  }
 
   // this function is called when you want the server to die gracefully
   // i.e. wait for existing connections
@@ -204,6 +228,8 @@ var defaultOpts = function(opts) {
     protocol: "http",
     domain: "localhost",
     port: 8000,
+    ssl_private_key: "sslcert/server.key",
+    ssl_certificate: "sslcert/server.crt",
     name: "My API",
     description: "Interactive API docs",
     docs_endpoint: "/",
@@ -229,7 +255,17 @@ var defaultOpts = function(opts) {
   if (defaults.protocol != 'http' && defaults.protocol != 'https') { defaults.protocol = 'http'; }
   
   // sane port values
-  if (!_.isNumber(defaults.port)) { defaults.port = 8000; }
+  if (!_.isNumber(defaults.port)) {
+    // sane secure server values
+    if (defaults.protocol == 'https') {
+      defaults.port = 8443;
+    } else {
+      defaults.port = 8000;
+    }
+  }
+  
+  // sane docs endpoints value
+  defaults.docs_endpoint = defaults.docs_endpoint.replace(/^\/?(.*?)\/?$/, '/$1/');
 
   // return
   return defaults;

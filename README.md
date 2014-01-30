@@ -89,6 +89,9 @@ When you init RESTly, you can supply several options to customise your API. The 
   protocol: "http", // public protocol, can be http or https (for generating example curl requests in docs)
   domain: "localhost", // public domain (for generating example curl requests in docs)
   port: 8000, // public port (for generating example curl requests in docs)
+              // if protocol is "https", port defaults to 8443
+  ssl_private_key: "sslcert/server.key", // SSL private key file
+  ssl_certificate: "sslcert/server.crt", // SSL certificate file
   name: "My API", // Name of the API, for building the docs
   description: "Interactive API docs", // Description, again for docs
   docs_endpoint: "/", // the location to access the docs from
