@@ -121,7 +121,7 @@ restly.init = function(r, opts) {
 
   // documentation page
   app.get(opts.docs_endpoint, function(req, res) {
-    
+
     var sections = [];
     for (var r in routesCollection) {
       sections.push(routesCollection[r].section);
@@ -265,7 +265,7 @@ var defaultOpts = function(opts) {
   }
   
   // sane docs endpoints value
-  defaults.docs_endpoint = defaults.docs_endpoint.replace(/^\/?(.*?)\/?$/, '/$1/');
+  defaults.docs_endpoint = defaults.docs_endpoint.replace(/^\/?(.*?)\/?$/, '/$1/?');
 
   // return
   return defaults;
