@@ -265,7 +265,13 @@ var defaultOpts = function(opts) {
   }
   
   // sane docs endpoints value
-  defaults.docs_endpoint = defaults.docs_endpoint.replace(/^\/?(.*?)\/?$/, '/$1/');
+  if (defaults.docs_endpoint != "/") {
+    if (defaults.docs_endpoint == "") {
+      defaults.docs_endpoint = "/";
+    } else {
+      defaults.docs_endpoint = defaults.docs_endpoint.replace(/^\/?(.*?)\/?$/, '/$1/');
+    }
+  }
 
   // return
   return defaults;
