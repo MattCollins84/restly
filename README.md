@@ -75,7 +75,7 @@ restly.init('./routes.json', {lib: "includes/"});
 Access this route via a HTTP get:
 
 ```
-CURL -X GET 'http://localhost:8000?foo=bar'
+CURL -X GET 'http://localhost:8000/example?foo=bar'
 ```
 
 ## More options
