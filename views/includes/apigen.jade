@@ -88,8 +88,8 @@ if apicall.endpoint
     div.controls
      input.btn.btn-success(type='button', value='Generate CURL',onclick='generateCurl('+"'"+config.protocol+"','"+config.domain+"','"+config.port+"',"+key+','+"'"+apicall.method+"'"+','+"'"+apicall.endpoint+"'"+')')
      - if(paramcount > 0) {
-      &nbsp;
-      input.btn(type='reset', value='Clear Form')
+         span &nbsp;
+         input.btn(type='reset', value='Clear Form')
      - }
 
   div.alert.alert-success.hidden(id="curlcommand"+key) 

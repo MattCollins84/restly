@@ -13,11 +13,12 @@ var _       = require('underscore'),
 var restly = {};
 
 // set up express
+var bodyParser = require('body-parser');
 var express = require('express');
 var app = express();
 
 // force express to parse posted and putted parameters
-app.use(express.bodyParser({ keepExtensions: true, uploadDir: '/tmp' }));
+app.use(bodyParser.urlencoded({ extended: true, uploadDir: '/tmp' }));
 
 // define public directory for docs
 app.use(express.static(__dirname+'/public'));

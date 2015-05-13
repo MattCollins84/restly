@@ -66,16 +66,22 @@ module.exports = {
 }
 ```
 
-And finally, set up your new API - telling restly where your routes file and libraries are located:
+And finally, set up your new API - telling restly where your routes file and libraries are located (test.js):
 ```
 var restly = require('restly');
 restly.init('./routes.json', {lib: "includes/"});
 ```
 
+Now run your application
+
+```
+node test.js
+```
+
 Access this route via a HTTP get:
 
 ```
-CURL -X GET 'http://localhost:8000/example?foo=bar'
+curl -X GET 'http://localhost:8000/example?foo=bar'
 ```
 
 ## More options
