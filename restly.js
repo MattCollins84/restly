@@ -19,6 +19,7 @@ var app = express();
 
 // force express to parse posted and putted parameters
 app.use(bodyParser.urlencoded({ extended: true, uploadDir: '/tmp' }));
+app.use(bodyParser.json());
 
 // define public directory for docs
 app.use(express.static(__dirname+'/public'));
