@@ -20,7 +20,7 @@ Simple and lightweight self-documenting REST API framework based on Express.
 
 First up, install RESTly:
 ```
-npm install restly
+npm install restly-api
 ```
 
 Then, create a routes file, in JSON (routes.json), where you will define your first API:
@@ -68,7 +68,7 @@ module.exports = {
 
 And finally, set up your new API - telling restly where your routes file and libraries are located (test.js):
 ```
-var restly = require('restly');
+var restly = require('restly-api');
 restly.init('./routes.json', {lib: "includes/"});
 ```
 
@@ -157,7 +157,7 @@ opts {
 
 To use middleware:
 ```
-var restly = require('restly');
+var restly = require('restly-api');
 restly.use(middleware.someMethod());
 restly.init('./routes.json', {lib: "includes/"});
 ```
